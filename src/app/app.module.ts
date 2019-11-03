@@ -20,11 +20,15 @@ import { ColumnComponent } from './components/column/column.component';
 import { CardComponent } from './components/card/card.component';
 import { OrderBy } from './pipes/orderby.pipe';
 import { Where } from './pipes/where.pipe';
+import { WebSocketService } from './services/ws.service';
+import { environment } from 'src/environments/environment';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { SortablejsModule } from 'ngx-sortablejs';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
+const config: SocketIoConfig = { url: environment.ROOT_URL, options: {} };
 
 @NgModule({
   declarations: [
@@ -45,7 +49,9 @@ export function createTranslateLoader(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-	BrowserAnimationsModule,
+    BrowserAnimationsModule,
+    SortablejsModule,
+    SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
         loader: {
             provide: TranslateLoader,
@@ -54,7 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
         }
     })
   ],
-  providers: [],
+  providers: [WebSocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

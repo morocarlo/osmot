@@ -1,0 +1,41 @@
+{
+    "_id": 2,
+    "title": "board 2",
+    "columns": [
+        {
+            "_id": 1,
+            "title": "col2",
+            "boardId": 2,
+            "order": 2
+        },
+        {
+            "_id": 2,
+            "title": "col__1",
+            "boardId": 2,
+            "order": 1
+        }
+    ],
+    "cards": [
+        {
+            "_id": 1,
+            "title": "card 111",
+            "boardId": 2,
+            "order": 1,
+            "columnId": 1
+        },
+        {
+            "_id": 2,
+            "title": "card 2",
+            "boardId": 2,
+            "order": 2,
+            "columnId": 2
+        },
+        {
+            "_id": 3,
+            "title": "card 3",
+            "boardId": 2,
+            "order": 3,
+            "columnId": 1
+        }
+    ]
+}

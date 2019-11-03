@@ -27,15 +27,7 @@ export class HomeComponent {
   }
 
   ngAfterViewInit() {
-    this.httprequest = new HttpdatabaseService(this._httpClient, 'printer_available', true);
-    this.httprequest.getObj(this.authenticationService.currentUserValue.token)
-      .subscribe(data => {
-        this.httprequest = data['printer_available'];
-      },
-      error => {
-        console.error(error.message);
-      }
-    )
+    
   };
 
   

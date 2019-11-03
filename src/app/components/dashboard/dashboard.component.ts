@@ -1,36 +1,52 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import { Board } from 'src/app/models/board';
+import { HttpdatabaseService } from 'src/app/services/httpdatabase.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'gtm-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  boards: Board[];
+    boards: Board[];
+    httprequest: HttpdatabaseService | null;
 
-  constructor(
-      private _router: Router) { }
+    constructor(
+        private authenticationService: AuthenticationService,
+        private _router: Router,
+        private _httpClient: HttpClient,
+    ) { }
 
-  ngOnInit() {
-    this.boards = [];
-    // TODO
-    /*this._bs.getAll().subscribe((boards:Board[]) => {
-      this.boards = boards;
-    });*/
-    setTimeout(function() {
-    }, 100);
-  }
+    ngOnInit() {
+        this.boards = [];
 
-  public addBoard(){
-    console.log('Adding new board');
-    // TODO
-    /*this._bs.post(<Board>{ title: "New board" })
-      .subscribe((board: Board) => {
-        this._router.navigate(['/b', board._id]);
-        console.log('new board added');
-    });*/
-  }
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'all_board', true);
+        this.httprequest.getObj(this.authenticationService.currentUserValue.token)
+            .subscribe((boards: Board[]) => {
+                this.boards = boards;
+            },
+            error => {
+                console.error(error.message);
+            }
+        )
+
+    }
+
+    public addBoard(){
+        console.log('Adding new board');
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'new_board', true);
+        this.httprequest.postObj(this.authenticationService.currentUserValue.token, { title: "New board" })
+            .subscribe((board: Board) => {
+                console.log(board)
+                this._router.navigate(['/b', board._id]);
+            },
+            error => {
+                console.error(error.message);
+            }
+        )
+
+    }
 
 }

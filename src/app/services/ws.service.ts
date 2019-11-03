@@ -2,26 +2,23 @@ import {Injectable, EventEmitter} from '@angular/core';
 import { Column } from '../models/column';
 import { Card } from '../models/card';
 import { environment } from 'src/environments/environment.cert';
-
-declare var io;
+import { Socket } from 'ngx-socket-io';
 
 @Injectable()
 export class WebSocketService {
-  socket: any;
   public onColumnAdd: EventEmitter<Column>;
   public onCardAdd: EventEmitter<Card>;
   public onColumnUpdate: EventEmitter<Column>;
   public onCardUpdate: EventEmitter<Card>;
 
-  constructor() {
+  constructor(private socket: Socket) {
     this.onColumnAdd = new EventEmitter();
     this.onCardAdd = new EventEmitter();
     this.onColumnUpdate = new EventEmitter();
     this.onCardUpdate = new EventEmitter();
   }
 
-  connect(){
-    this.socket = io(environment.ROOT_URL);
+  connect(){ 
 
     this.socket.on('addColumn', data => {
       this.onColumnAdd.emit(<Column>data.column);
