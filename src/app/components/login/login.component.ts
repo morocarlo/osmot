@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
         translate.setDefaultLang(lang);
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) { 
-            this.router.navigate(['/']);
+            this.router.navigate(['/dashboard']);
         }
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],

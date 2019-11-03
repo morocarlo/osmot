@@ -7,6 +7,7 @@ import { SortablejsOptions } from 'ngx-sortablejs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpdatabaseService } from 'src/app/services/httpdatabase.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
     selector: 'gtm-column',
@@ -26,15 +27,18 @@ export class ColumnComponent implements OnInit {
     addCardText: string;
     currentTitle: string;
     httprequest: HttpdatabaseService | null;
+    private readonly notifier: NotifierService;
 
     constructor(
         private el: ElementRef,
         private _ws: WebSocketService,
         private authenticationService: AuthenticationService,
         private _httpClient: HttpClient,
+        notifierService: NotifierService,
         ){
-        this.onAddCard = new EventEmitter();
-        this.cardUpdate = new EventEmitter();
+            this.onAddCard = new EventEmitter();
+            this.cardUpdate = new EventEmitter();
+            this.notifier = notifierService;
     }
 
     ngOnInit() {
@@ -80,7 +84,11 @@ export class ColumnComponent implements OnInit {
                 this._ws.addCard(card.boardId, card);
             },
             error => {
-                console.error(error.message);
+                this.notifier.notify(
+                    "error",
+                    error.message,
+                    "THAT_NOTIFICATION_ID"
+                );
             }
         )
     }
@@ -107,7 +115,11 @@ export class ColumnComponent implements OnInit {
                 this._ws.updateColumn(this.column.boardId, this.column);
             },
             error => {
-                console.error(error.message);
+                this.notifier.notify(
+                    "error",
+                    error.message,
+                    "THAT_NOTIFICATION_ID"
+                );
             }
         )
 

@@ -2,11 +2,11 @@
     <h2>Boards</h2>
     <div class="row">
         <div id="boards" class="col-12">
-            <a class="board" *ngFor="let board of boards" [routerLink]="['/b', board._id]">
+            <a class="board" *ngFor="let board of boards" [routerLink]="['/board', board._id]">
                 <span class="title">{{board?.title}}</span>
             </a>
             <a href="#" class="board add-board" (click)="addBoard()">
-                <span class="title">Create a new board...</span>
+                <span class="title">{{ 'dashboard.create_board' | translate }}</span>
             </a>
         </div>
     </div>

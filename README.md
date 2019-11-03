@@ -31,3 +31,13 @@ git push origin --tags
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+
+# TODO LIST
+
+- [ ] Aggiungere save al reordering di board e card
+- [ ] Aggiungere file uploader multiplo con file preview
+- [ ] Aggiungere labels
+- [ ] Aggiungere gestione board
+- [ ] Aggiungere delete per tutti
+- [ ] Aggiungere subtask

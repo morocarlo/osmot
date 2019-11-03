@@ -3,7 +3,7 @@
         <ul class="navbar-nav pull-right language-bar">
             <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/']">
-                    Home
+                    {{ 'home.home' | translate }}
                 </a>
             </li>
             <li class="nav-item">
@@ -18,7 +18,7 @@
             </li>
 
             <li class="nav-item" *ngIf="authenticationService.currentUserValue">
-                <a href="#" class="nav-link" (click)="logout()">Logout</a>
+                <a href="#" class="nav-link" (click)="logout()"> {{ 'home.logout' | translate }}</a>
             </li>
         </ul>
     </nav>

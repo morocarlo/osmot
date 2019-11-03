@@ -3,7 +3,9 @@ import { Card } from './card';
 
 export class Board {
 	_id: string;
-	title: string;
+    title: string;
+    background: string;
+    icon: string;
 	columns: Column[];
     cards: Card[];
 }

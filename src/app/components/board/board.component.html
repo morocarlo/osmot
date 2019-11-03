@@ -20,7 +20,7 @@
         </div>
         <div class="add-column column"
             (click)="enableAddColumn()" >
-            <span [style.display]="addingColumn ? 'none' : ''" >Add a list...</span>
+            <span [style.display]="addingColumn ? 'none' : ''" >{{ 'board.add_list' | translate }}</span>
         
             <div><input 
                 class="add-column-input" 
@@ -30,7 +30,7 @@
                 [(ngModel)]="addColumnText" />
             </div>
 
-            <div class="btn btn-success" (click)="addColumn()" *ngIf="addingColumn">Add list</div>
+            <div class="btn btn-success" (click)="addColumn()" *ngIf="addingColumn"> {{ 'board.add_list_btn' | translate }}</div>
         </div>
     </section>
 

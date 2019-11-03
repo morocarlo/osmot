@@ -138,7 +138,8 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.httprequest = new HttpdatabaseService(this._httpClient, 'add_column', true);
         this.httprequest.postObj(this.authenticationService.currentUserValue.token, newColumn)
             .subscribe((column:Column) => {
-                this.board.columns.push(column)
+                newColumn._id = column._id;
+                this.board.columns.push(newColumn)
                 console.log('column added');
                 this.addColumnText = '';
                 this._ws.addColumn(this.board._id, column);
