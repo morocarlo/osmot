@@ -9,6 +9,7 @@ import { HttpdatabaseService } from 'src/app/services/httpdatabase.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { SortablejsOptions } from 'ngx-sortablejs';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
     selector: 'gtm-board',
@@ -25,15 +26,18 @@ export class BoardComponent implements OnInit, OnDestroy {
     boardWidth: number;
     columnsAdded: number = 0;
     httprequest: HttpdatabaseService | null;
+    private readonly notifier: NotifierService;
 
     constructor(public el: ElementRef,
         private _ws: WebSocketService,
+        notifierService: NotifierService,
         private _router: Router,
         private authenticationService: AuthenticationService,
         private _httpClient: HttpClient,
         private _route: ActivatedRoute,
         private renderer: Renderer2,
         ) {
+            this.notifier = notifierService;
     }
 
     ngOnInit() {
@@ -59,7 +63,11 @@ export class BoardComponent implements OnInit, OnDestroy {
                 document.title = this.board.title + " | Generic Task Manager";
                 },
                 error => {
-                    console.error(error.message);
+                    this.notifier.notify(
+                        "error",
+                        error.message,
+                        "THAT_NOTIFICATION_ID"
+                    );
                 }
             )
 
@@ -167,13 +175,13 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.board.cards.push(card);
     }
 
-    foreceUpdateCards() {
+    forceUpdateCards() {
         var cards = JSON.stringify(this.board.cards);
         this.board.cards = JSON.parse(cards);
     }
 
 
     onCardUpdate(card: Card) {
-        this.foreceUpdateCards();
+        this.forceUpdateCards();
     }
 }

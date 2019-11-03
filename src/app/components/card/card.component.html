@@ -1,12 +1,21 @@
 <li class="card" 
     [attr.card-id]="card._id"
     [attr.card-order]="card.order"
-    (click)="editCard()">
+    (click)="openModal(template, card)" >
     <span [innerHtml]="card.title" [style.display]="editingCard ? 'none' : ''">
     </span>
-    <textarea
-        [style.display]="editingCard ? '' : 'none' "
-        (keydown)="blurOnEnter($event)"
-        (blur)="updateCard()"
-        [(ngModel)]="card.title" ></textarea>
 </li>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        TODO form
+    </div>
+</ng-template>
+
+<hr>

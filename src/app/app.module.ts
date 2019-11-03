@@ -24,6 +24,8 @@ import { WebSocketService } from './services/ws.service';
 import { environment } from 'src/environments/environment';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SortablejsModule } from 'ngx-sortablejs';
+import { NotifierModule } from "angular-notifier";
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -51,6 +53,8 @@ const config: SocketIoConfig = { url: environment.ROOT_URL, options: {} };
     HttpClientModule,
     BrowserAnimationsModule,
     SortablejsModule,
+    NotifierModule,
+    ModalModule.forRoot(),
     SocketIoModule.forRoot(config),
     TranslateModule.forRoot({
         loader: {
@@ -61,6 +65,7 @@ const config: SocketIoConfig = { url: environment.ROOT_URL, options: {} };
     })
   ],
   providers: [WebSocketService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: []
 })
 export class AppModule { }

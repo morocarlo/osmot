@@ -1,31 +1,27 @@
-<div class="container">
+<div class="">
+    <nav class="navbar navbar-expand-sm bg-light">
+        <ul class="navbar-nav pull-right language-bar">
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': translate.getDefaultLang() == 'en' }" href="javascript:void(0)" (click)="useLanguage('en')">
+                    EN
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': translate.getDefaultLang() == 'it' }" href="javascript:void(0)" (click)="useLanguage('it')">
+                    IT
+                </a>
+            </li>
 
-    <div class="row mt-5">
-        <div class="col-md-6 col-xs-6">
-            <img class="icon-logo" src="">
-        </div>
-        <div class="col-md-6 col-xs-6 navs pull-right">
-            <ul class="pull-right language-bar">
-                <li class="nav-item">
-                    <a class="nav-link" [ngClass]="{'active': translate.getDefaultLang() == 'en' }" href="javascript:void(0)" (click)="useLanguage('en')">
-                        EN
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [ngClass]="{'active': translate.getDefaultLang() == 'it' }" href="javascript:void(0)" (click)="useLanguage('it')">
-                        IT
-                    </a>
-                </li>
-
-                <li class="nav-item" *ngIf="authenticationService.currentUserValue">
-                    <a href="#" class="nav-link" (click)="logout()">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+            <li class="nav-item" *ngIf="authenticationService.currentUserValue">
+                <a href="#" class="nav-link" (click)="logout()">Logout</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <router-outlet></router-outlet>
+
+<notifier-container></notifier-container>
 
 <div class="footer">
     <div class="container">

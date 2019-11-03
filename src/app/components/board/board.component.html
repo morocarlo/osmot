@@ -1,31 +1,37 @@
-<div *ngIf="board" class="board-title">
-    <span [style.display]="editingTilte ? 'none' : ''" (click)="editTitle()">{{ board?.title }}</span>
+<div>
+    <div *ngIf="board" class="board-title">
+        <span [style.display]="editingTilte ? 'none' : ''" (click)="editTitle()">{{ board?.title }}</span>
 
-    <input  
-        [style.display]="editingTilte ? '' : 'none' "
-        (keyup)="blurOnEnter($event)"
-        (blur)="updateBoard()"
-        [(ngModel)]="board.title" />  
-</div>
+        <input  
+            [style.display]="editingTilte ? '' : 'none' "
+            (keyup)="blurOnEnter($event)"
+            (blur)="updateBoard()"
+            [(ngModel)]="board.title" />  
+    </div>
 
-<section class="row" *ngIf="board" [sortablejs]="board.columns" >
-    <div *ngFor="let column of board.columns | orderBy : 'order'" class="col-md-3 col-12">
-        <div class="" >
-            <gtm-column [column]="column"
-                (onAddCard)="addCard($event)"
-                [cards]="board.cards">
-            </gtm-column>
+    <section class="" *ngIf="board" [sortablejs]="board.columns">
+        <div *ngFor="let column of board.columns | orderBy : 'order'" class="column">
+            <div>
+                <gtm-column [column]="column"
+                    (onAddCard)="addCard($event)"
+                    [cards]="board.cards">
+                </gtm-column>
+            </div>
         </div>
-    </div>
-    <div class="add-column col-md-3 col-12"
-    (click)="enableAddColumn()" >
-        <span [style.display]="addingColumn ? 'none' : ''" >Add a list...</span>
-    
-        <input 
-            class="add-column-input" 
-            [style.display]="addingColumn ? '' : 'none' "
-            (keyup)="addColumnOnEnter($event)"
-            (blur)="addColumnOnBlur()"
-            [(ngModel)]="addColumnText" />
-    </div>
-</section>
+        <div class="add-column column"
+            (click)="enableAddColumn()" >
+            <span [style.display]="addingColumn ? 'none' : ''" >Add a list...</span>
+        
+            <div><input 
+                class="add-column-input" 
+                [style.display]="addingColumn ? '' : 'none' "
+                (keyup)="addColumnOnEnter($event)" 
+                (blur)="addColumnOnBlur()"
+                [(ngModel)]="addColumnText" />
+            </div>
+
+            <div class="btn btn-success" (click)="addColumn()" *ngIf="addingColumn">Add list</div>
+        </div>
+    </section>
+
+</div>
