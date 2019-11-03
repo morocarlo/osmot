@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
       private authenticationService: AuthenticationService,
       private translate: TranslateService,
   ) {
-        console.log('here');
         let lang = localStorage.getItem('language') || 'en';
         translate.setDefaultLang(lang);
         // redirect to home if already logged in
