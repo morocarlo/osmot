@@ -1,0 +1,42 @@
+<div class="container">
+
+    <div class="row mt-5">
+        <div class="col-md-6 col-xs-6">
+            <img class="icon-logo" src="">
+        </div>
+        <div class="col-md-6 col-xs-6 navs pull-right">
+            <ul class="pull-right language-bar">
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{'active': translate.getDefaultLang() == 'en' }" href="javascript:void(0)" (click)="useLanguage('en')">
+                        EN
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{'active': translate.getDefaultLang() == 'it' }" href="javascript:void(0)" (click)="useLanguage('it')">
+                        IT
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link" (click)="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>
+
+<div class="footer">
+    <div class="container">
+        <div class="row" style="">
+            <div class="col-md-6 col-xs-12">
+                <span [innerHtml]="'home.footer' | translate"></span>
+            </div>
+            <div class="col-md-6  col-xs-12 pull-right text-right pull-right-no-mobile">
+                <span [innerHtml]="'home.copy' | translate"></span>
+                <span>&nbsp;<app-version></app-version></span>
+            </div>
+        </div>
+    </div>
+</div>
