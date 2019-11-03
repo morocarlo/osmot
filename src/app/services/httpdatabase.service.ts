@@ -17,7 +17,7 @@ export class HttpdatabaseService {
 
   href = '';
   
-  constructor(private _httpClient: HttpClient, private apiName: string, private isTable: boolean ) {
+  constructor(private _httpClient: HttpClient, public apiName: string, private isTable: boolean ) {
     this.href = environment.apiUrl + this.apiName+'/';
   }
 
@@ -44,8 +44,16 @@ export class HttpdatabaseService {
 
   loginUser(username: string, password: string): Observable<User> {
     let requestUrl = this.href;
+    if (!environment.production){
+        return this.getJSON();
+    }
     return this._httpClient.post<User>(requestUrl, { username, password }, this.httpOptions);
   }
+
+
+  public getJSON(): Observable<any> {
+    return this._httpClient.get("./assets/mock/"+this.apiName+".json");
+    }
 
 }
 
