@@ -1,72 +1,84 @@
 import {Component, OnInit, Input, Output, EventEmitter, ElementRef, ChangeDetectorRef, NgZone} from '@angular/core';
 import { Card } from 'src/app/models/card';
 import { WebSocketService } from 'src/app/services/ws.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpdatabaseService } from 'src/app/services/httpdatabase.service';
 
 @Component({
   selector: 'gtm-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'],
 })
 export class CardComponent implements OnInit {
-  @Input()
-  card: Card;
-  @Output() cardUpdate: EventEmitter<Card>;
-  editingCard = false;
-  currentTitle: string;
-  zone: NgZone;
-  constructor(private el: ElementRef,
-    private _ref: ChangeDetectorRef,
-    private _ws: WebSocketService,
-    ) {
-    this.zone = new NgZone({ enableLongStackTrace: false });
-    this.cardUpdate = new EventEmitter();
-  }
+    @Input()
+    card: Card;
+    @Output() cardUpdate: EventEmitter<Card>;
+    editingCard = false;
+    currentTitle: string;
+    zone: NgZone;
+    httprequest: HttpdatabaseService | null;
 
-  ngOnInit() {
-    this._ws.onCardUpdate.subscribe((card: Card) => {
-      if (this.card._id === card._id) {
-        this.card.title = card.title;
-        this.card.order = card.order;
-        this.card.columnId = card.columnId;
-      }
-    });
-  }
-
-  blurOnEnter(event) {
-    if (event.keyCode === 13) {
-      event.target.blur();
-    } else if (event.keyCode === 27) {
-      this.card.title = this.currentTitle;
-      this.editingCard = false;
-    }
-  }
-
-  editCard() {
-    this.editingCard = true;
-    this.currentTitle = this.card.title;
-
-    let textArea = this.el.nativeElement.getElementsByTagName('textarea')[0];
-
-    setTimeout(function() {
-      textArea.focus();
-    }, 0);
-  }
-
-  updateCard() {
-    if (!this.card.title || this.card.title.trim() === '') {
-      this.card.title = this.currentTitle;
+    constructor(private el: ElementRef,
+        private _ref: ChangeDetectorRef,
+        private _ws: WebSocketService,
+        private authenticationService: AuthenticationService,
+        private _httpClient: HttpClient,
+        ) {
+        this.zone = new NgZone({ enableLongStackTrace: false });
+        this.cardUpdate = new EventEmitter();
     }
 
-    //TODO: 
-    /*this._cardService.put(this.card).then(res => {
-      this._ws.updateCard(this.card.boardId, this.card);
-    });*/
-    this.editingCard = false;
-  }
+    ngOnInit() {
+        this._ws.onCardUpdate.subscribe((card: Card) => {
+        if (this.card._id === card._id) {
+            this.card.title = card.title;
+            this.card.order = card.order;
+            this.card.columnId = card.columnId;
+        }
+        });
+    }
 
-  //TODO: check lifecycle
-  private ngOnDestroy() {
-    //this._ws.onCardUpdate.unsubscribe();
-  }
+    blurOnEnter(event) {
+        if (event.keyCode === 13) {
+            event.target.blur();
+        } else if (event.keyCode === 27) {
+            this.card.title = this.currentTitle;
+            this.editingCard = false;
+        }
+    }
+
+    editCard() {
+        this.editingCard = true;
+        this.currentTitle = this.card.title;
+
+        let textArea = this.el.nativeElement.getElementsByTagName('textarea')[0];
+
+        setTimeout(function() {
+            textArea.focus();
+        }, 0);
+    }
+
+    updateCard() {
+        if (!this.card.title || this.card.title.trim() === '') {
+            this.card.title = this.currentTitle;
+        }
+
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'update_card', true);
+        this.httprequest.postObj(this.authenticationService.currentUserValue.token, this.card)
+            .subscribe((boards: Card) => {
+                this._ws.updateCard(this.card.boardId, this.card);
+            },
+            error => {
+                console.error(error.message);
+            }
+        )
+
+        this.editingCard = false;
+    }
+
+    //TODO: check lifecycle
+    private ngOnDestroy() {
+        //this._ws.onCardUpdate.unsubscribe();
+    }
 
 }

@@ -21,7 +21,8 @@
     (click)="enableAddColumn()" >
         <span [style.display]="addingColumn ? 'none' : ''" >Add a list...</span>
     
-        <input  
+        <input 
+            class="add-column-input" 
             [style.display]="addingColumn ? '' : 'none' "
             (keyup)="addColumnOnEnter($event)"
             (blur)="addColumnOnBlur()"

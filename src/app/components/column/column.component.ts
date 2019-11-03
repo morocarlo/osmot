@@ -4,6 +4,9 @@ import { Column } from 'src/app/models/column';
 import { Card } from 'src/app/models/card';
 import { WebSocketService } from 'src/app/services/ws.service';
 import { SortablejsOptions } from 'ngx-sortablejs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpdatabaseService } from 'src/app/services/httpdatabase.service';
 
 @Component({
     selector: 'gtm-column',
@@ -22,17 +25,19 @@ export class ColumnComponent implements OnInit {
     addingCard = false;
     addCardText: string;
     currentTitle: string;
+    httprequest: HttpdatabaseService | null;
 
     constructor(
         private el: ElementRef,
-        private _ws: WebSocketService
+        private _ws: WebSocketService,
+        private authenticationService: AuthenticationService,
+        private _httpClient: HttpClient,
         ){
         this.onAddCard = new EventEmitter();
         this.cardUpdate = new EventEmitter();
     }
 
     ngOnInit() {
-        this.setupView();
         this._ws.onColumnUpdate.subscribe((column: Column) => {
             if (this.column._id === column._id) {
                 this.column.title = column.title;
@@ -44,75 +49,6 @@ export class ColumnComponent implements OnInit {
     normalOptions: SortablejsOptions = {
         group: 'card-list',
     };
-
-    setupView() {
-        let component = this;
-        var startColumn;
-        /*jQuery('.card-list').sortable({
-        connectWith: ".card-list",
-        placeholder: "card-placeholder",
-        dropOnEmpty: true,
-        tolerance: 'pointer',
-        start: function(event, ui) {
-            ui.placeholder.height(ui.item.outerHeight());
-            startColumn = ui.item.parent();
-        },
-        stop: function(event, ui) {
-            var senderColumnId = startColumn.attr('column-id');
-            var targetColumnId = ui.item.closest('.card-list').attr('column-id');
-            var cardId = ui.item.find('.card').attr('card-id');
-
-            component.updateCardsOrder({
-            columnId: targetColumnId || senderColumnId,
-            cardId: cardId
-            });
-        }
-        });
-        jQuery('.card-list').disableSelection();*/
-    }
-
-    updateCardsOrder(event) {
-        /*let cardArr = jQuery('[column-id=' + event.columnId + '] .card'),
-        i: number = 0,
-        elBefore: number = -1,
-        elAfter: number = -1,
-        newOrder: number = 0;
-
-        for (i = 0; i < cardArr.length - 1; i++) {
-        if (cardArr[i].getAttribute('card-id') == event.cardId) {
-            break;
-        }
-        }
-
-        if (cardArr.length > 1) {
-        if (i > 0 && i < cardArr.length - 1) {
-            elBefore = +cardArr[i - 1].getAttribute('card-order');
-            elAfter = +cardArr[i + 1].getAttribute('card-order');
-
-            newOrder = elBefore + ((elAfter - elBefore) / 2);
-        }
-        else if (i == cardArr.length - 1) {
-            elBefore = +cardArr[i - 1].getAttribute('card-order');
-            newOrder = elBefore + 1000;
-        } else if (i == 0) {
-            elAfter = +cardArr[i + 1].getAttribute('card-order');
-
-            newOrder = elAfter / 2;
-        }
-        } else {
-        newOrder = 1000;
-        }
-
-
-        let card = this.cards.filter(x => x._id === event.cardId)[0];
-        let oldColumnId = card.columnId;
-        card.order = newOrder;
-        card.columnId = event.columnId;*/
-        // TODO
-        /*this._cardService.put(card).then(res => {
-        this._ws.updateCard(this.column.boardId, card);
-        });*/
-    }
 
     blurOnEnter(event) {
         if (event.keyCode === 13) {
@@ -131,17 +67,22 @@ export class ColumnComponent implements OnInit {
     addCard() {
         this.cards = this.cards || [];
         let newCard = <Card>{
-        title: this.addCardText,
-        order: (this.cards.length + 1) * 1000,
-        columnId: this.column._id,
-        boardId: this.column.boardId
+            title: this.addCardText,
+            order: (this.cards.length + 1) * 1000,
+            columnId: this.column._id,
+            boardId: this.column.boardId
         };
-        // TODO
-        /*this._cardService.post(newCard)
-        .subscribe(card => {
-            this.onAddCard.emit(card);
-            this._ws.addCard(card.boardId, card);
-        });*/
+
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'new_card', true);
+        this.httprequest.postObj(this.authenticationService.currentUserValue.token, newCard)
+            .subscribe((card:Card) => {
+                this.onAddCard.emit(card);
+                this._ws.addCard(card.boardId, card);
+            },
+            error => {
+                console.error(error.message);
+            }
+        )
     }
 
     addCardOnEnter(event: KeyboardEvent) {
@@ -159,10 +100,17 @@ export class ColumnComponent implements OnInit {
 
     updateColumn() {
         if (this.column.title && this.column.title.trim() !== '') {
-            // TODO
-        /*this._columnService.put(this.column).then(res => {
-            this._ws.updateColumn(this.column.boardId, this.column);
-        });*/
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'update_column', true);
+        this.httprequest.postObj(this.authenticationService.currentUserValue.token, this.column)
+            .subscribe((card:Card) => {
+                this.onAddCard.emit(card);
+                this._ws.updateColumn(this.column.boardId, this.column);
+            },
+            error => {
+                console.error(error.message);
+            }
+        )
+
         this.editingColumn = false;
         } else {
         this.cleadAddColumn();
@@ -204,9 +152,9 @@ export class ColumnComponent implements OnInit {
 
     addCardOnBlur() {
         if (this.addingCard) {
-        if (this.addCardText && this.addCardText.trim() !== '') {
-            this.addCard();
-        }
+            if (this.addCardText && this.addCardText.trim() !== '') {
+                this.addCard();
+            }
         }
         this.clearAddCard();
     }
