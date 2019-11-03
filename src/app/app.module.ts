@@ -14,6 +14,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VersionComponent } from './components/version/version.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BoardComponent } from './components/board/board.component';
+import { ColumnComponent } from './components/column/column.component';
+import { CardComponent } from './components/card/card.component';
+import { OrderBy } from './pipes/orderby.pipe';
+import { Where } from './pipes/where.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -25,7 +31,13 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent,
     VersionComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    DashboardComponent,
+    BoardComponent,
+    ColumnComponent,
+    CardComponent,
+    OrderBy,
+    Where,
   ],
   imports: [
     BrowserModule,

@@ -19,7 +19,7 @@ export class HttpdatabaseService {
   
   constructor(private _httpClient: HttpClient, public apiName: string, private isTable: boolean ) {
     this.href = environment.apiUrl + this.apiName+'/';
-  }
+  } 
 
   getTable(sort: string, order: string, page: number, limit: number, userToken: string): Observable<TableApi> {
     this.httpOptions.headers = this.httpOptions.headers.set('Authorization', 'Token ' + userToken);
@@ -27,18 +27,27 @@ export class HttpdatabaseService {
     if (this.isTable){
       requestUrl = `${this.href}?_sort=${sort}&_order=${order}&_page=${page + 1}&_limit=${limit}`; 
     }
+    if (!environment.production){
+        return this.getJSON();
+    }
     return this._httpClient.get<TableApi>(requestUrl, this.httpOptions);
   }
 
   getObj( userToken: string): Observable<Object> {
     this.httpOptions.headers = this.httpOptions.headers.set('Authorization', 'Token ' + userToken);
     let requestUrl = this.href;
+    if (!environment.production){
+        return this.getJSON();
+    }
     return this._httpClient.get<Object>(requestUrl, this.httpOptions);
   }
 
   postObj( userToken: string, body: object): Observable<Object> {
     this.httpOptions.headers = this.httpOptions.headers.set('Authorization', 'Token ' + userToken);
     let requestUrl = this.href;
+    if (!environment.production){
+        return this.getJSON();
+    }
     return this._httpClient.post<Object>(requestUrl, body ,this.httpOptions);
   }
 
