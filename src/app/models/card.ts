@@ -14,5 +14,5 @@ export class Card {
     end_date: Date;
     expecting_hours: number;
     real_hours: number;
-    subtastks: Subtask[];
+    subtasks: Subtask[];
 }

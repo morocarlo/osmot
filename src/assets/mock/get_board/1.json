@@ -22,7 +22,13 @@
             "description": "descas dad adsda  sadsad sadsd",
             "boardId": 2,
             "order": 1,
-            "columnId": 1
+            "columnId": 1,
+            "subtasks": [
+                {
+                    "_id": 1,
+                    "title": "subtask 111"
+                }
+            ]
         },
         {
             "_id": 2,

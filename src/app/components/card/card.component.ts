@@ -59,11 +59,11 @@ export class CardComponent implements OnInit {
         if (!this.card.title || this.card.title.trim() === '') {
             this.card.title = serializedForm.title;
         }
-        this.card = serializedForm;
 
         this.httprequest = new HttpdatabaseService(this._httpClient, 'update_card', true);
         this.httprequest.postObj(this.authenticationService.currentUserValue.token, serializedForm)
-            .subscribe((boards: Card) => {
+            .subscribe((card: Card) => {
+                this.card = card;
                 this._ws.updateCard(this.card.boardId, this.card);
             },
             error => {

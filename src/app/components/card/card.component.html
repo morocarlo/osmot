@@ -29,6 +29,15 @@
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                     <div *ngIf="f.description.errors.required">{{ 'card.description_required' | translate}}</div>
                 </div>
+
+                <div *ngFor="let subtask of card.subtasks | orderBy : 'order'" class="column">
+                    <div>
+                        <app-subtask [subtask]="subtask"
+                            >
+                        </app-subtask>
+                    </div>
+                </div>
+
             </div>
         </form>
     </div>

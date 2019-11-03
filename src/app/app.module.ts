@@ -26,6 +26,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { NotifierModule } from "angular-notifier";
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SubtaskComponent } from './components/subtask/subtask.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -44,6 +45,7 @@ const config: SocketIoConfig = { url: environment.ROOT_URL, options: {} };
     CardComponent,
     OrderBy,
     Where,
+    SubtaskComponent,
   ],
   imports: [
     BrowserModule,
