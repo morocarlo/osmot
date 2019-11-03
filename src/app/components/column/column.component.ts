@@ -58,9 +58,9 @@ export class ColumnComponent implements OnInit {
 
     addColumnOnEnter(event: KeyboardEvent) {
         if (event.keyCode === 13) {
-        this.updateColumn();
+            this.updateColumn();
         } else if (event.keyCode === 27) {
-        this.cleadAddColumn();
+            this.cleadAddColumn();
         }
     }
 

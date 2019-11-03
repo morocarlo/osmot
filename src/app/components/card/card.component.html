@@ -14,7 +14,23 @@
         </button>
     </div>
     <div class="modal-body">
-        TODO form
+        <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="title">{{ 'card.title' | translate}}</label>
+                <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                    <div *ngIf="f.title.errors.required">{{ 'card.title_required' | translate}}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">{{ 'card.description' | translate}}</label>
+                <textarea formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                ></textarea>
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <div *ngIf="f.description.errors.required">{{ 'card.description_required' | translate}}</div>
+                </div>
+            </div>
+        </form>
     </div>
 </ng-template>
 

@@ -1,11 +1,13 @@
-<div class="boards-wrapper">
-<h2>Boards</h2>
-<div id="boards">
-  <a class="board" *ngFor="let board of boards" [routerLink]="['/b', board._id]">
-    <span class="title">{{board?.title}}</span>
-  </a>
-  <a href="#" class="board add-board" (click)="addBoard()">
-    <span class="title">Create a new board...</span>
-  </a>
-</div>
+<div class="boards-wrapper container-fluid">
+    <h2>Boards</h2>
+    <div class="row">
+        <div id="boards" class="col-12">
+            <a class="board" *ngFor="let board of boards" [routerLink]="['/b', board._id]">
+                <span class="title">{{board?.title}}</span>
+            </a>
+            <a href="#" class="board add-board" (click)="addBoard()">
+                <span class="title">Create a new board...</span>
+            </a>
+        </div>
+    </div>
 </div>

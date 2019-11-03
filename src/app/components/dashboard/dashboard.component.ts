@@ -4,20 +4,26 @@ import { Board } from 'src/app/models/board';
 import { HttpdatabaseService } from 'src/app/services/httpdatabase.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpClient } from '@angular/common/http';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'gtm-dashboard',
   templateUrl: './dashboard.component.html',
 })
+
 export class DashboardComponent implements OnInit {
     boards: Board[];
     httprequest: HttpdatabaseService | null;
+    private readonly notifier: NotifierService;
 
     constructor(
         private authenticationService: AuthenticationService,
         private _router: Router,
+        notifierService: NotifierService,
         private _httpClient: HttpClient,
-    ) { }
+    ) {
+        this.notifier = notifierService;
+     }
 
     ngOnInit() {
         this.boards = [];
@@ -28,7 +34,11 @@ export class DashboardComponent implements OnInit {
                 this.boards = boards;
             },
             error => {
-                console.error(error.message);
+                this.notifier.notify(
+                    "error",
+                    error.message,
+                    "THAT_NOTIFICATION_ID"
+                );
             }
         )
 
@@ -43,7 +53,11 @@ export class DashboardComponent implements OnInit {
                 this._router.navigate(['/b', board._id]);
             },
             error => {
-                console.error(error.message);
+                this.notifier.notify(
+                    "error",
+                    error.message,
+                    "THAT_NOTIFICATION_ID"
+                );
             }
         )
 

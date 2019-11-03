@@ -76,8 +76,10 @@ export class BoardComponent implements OnInit, OnDestroy {
         
 
     ngOnDestroy(){
-        console.log(`leaving board ${this.board._id}`);
-        this._ws.leave(this.board._id);
+        if (this.board){
+            console.log(`leaving board ${this.board._id}`);
+            this._ws.leave(this.board._id);
+        }
     }
     
     normalOptions: SortablejsOptions = {
@@ -91,7 +93,11 @@ export class BoardComponent implements OnInit, OnDestroy {
                 .subscribe(() => {
                 },
                 error => {
-                    console.error(error.message);
+                    this.notifier.notify(
+                        "error",
+                        error.message,
+                        "THAT_NOTIFICATION_ID"
+                    );
                 }
             )
 
@@ -138,7 +144,11 @@ export class BoardComponent implements OnInit, OnDestroy {
                 this._ws.addColumn(this.board._id, column);
             },
             error => {
-                console.error(error.message);
+                this.notifier.notify(
+                    "error",
+                    error.message,
+                    "THAT_NOTIFICATION_ID"
+                );
             }
         )
 

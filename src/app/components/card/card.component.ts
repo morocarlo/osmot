@@ -6,6 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { HttpdatabaseService } from 'src/app/services/httpdatabase.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'gtm-card',
@@ -16,22 +18,31 @@ export class CardComponent implements OnInit {
     card: Card;
     @Output() cardUpdate: EventEmitter<Card>;
     editingCard = false;
-    currentTitle: string;
     zone: NgZone;
     httprequest: HttpdatabaseService | null;
     closeResult: string;
     modalRef: BsModalRef;
     subscriptions: Subscription[] = [];
+    cardForm: FormGroup;
+    private readonly notifier: NotifierService;
 
     constructor(private el: ElementRef,
         private _ref: ChangeDetectorRef,
         private _ws: WebSocketService,
+        notifierService: NotifierService,
+        private formBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
         private _httpClient: HttpClient,
         private modalService: BsModalService,
         ) {
-        this.zone = new NgZone({ enableLongStackTrace: false });
-        this.cardUpdate = new EventEmitter();
+
+            this.notifier = notifierService;
+            this.zone = new NgZone({ enableLongStackTrace: false });
+            this.cardUpdate = new EventEmitter();
+            this.cardForm = this.formBuilder.group({
+                title: ['', Validators.required],
+                description: ['', Validators.required]
+            });
     }
 
     ngOnInit() {
@@ -44,45 +55,44 @@ export class CardComponent implements OnInit {
         });
     }
 
-    blurOnEnter(event) {
-        if (event.keyCode === 13) {
-            event.target.blur();
-        } else if (event.keyCode === 27) {
-            this.card.title = this.currentTitle;
-            this.editingCard = false;
-        }
-    }
-
-    updateCard() {
+    updateCard(serializedForm) {
         if (!this.card.title || this.card.title.trim() === '') {
-            this.card.title = this.currentTitle;
+            this.card.title = serializedForm.title;
         }
+        this.card = serializedForm;
 
         this.httprequest = new HttpdatabaseService(this._httpClient, 'update_card', true);
-        this.httprequest.postObj(this.authenticationService.currentUserValue.token, this.card)
+        this.httprequest.postObj(this.authenticationService.currentUserValue.token, serializedForm)
             .subscribe((boards: Card) => {
                 this._ws.updateCard(this.card.boardId, this.card);
             },
             error => {
-                console.error(error.message);
+                this.notifier.notify(
+                    "error",
+                    error.message,
+                    "THAT_NOTIFICATION_ID"
+                );
             }
         )
 
         this.editingCard = false;
     }
 
+    get f() { return this.cardForm.controls; }
+
     openModal(template: TemplateRef<any>, card: Card) {
         this.modalRef = this.modalService.show(template);
 
-        console.log(card);
+        this.f.title.setValue(card.title);
+        this.f.description.setValue(card.description);
 
         this.subscriptions.push(
             this.modalService.onHide.subscribe((reason: string) => {
-              const _reason = reason ? `, dismissed by ${reason}` : '';
-              console.log(`onHide event has been fired${_reason}`);
+                const _reason = reason ? `, dismissed by ${reason}` : '';
+                let formObj = this.cardForm.getRawValue(); // {name: '', description: ''}
 
-              console.log(card);
-              this.updateCard();
+                console.log(card, formObj);
+                this.updateCard(formObj);
               
             })
           );
