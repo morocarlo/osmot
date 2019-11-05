@@ -1,3 +1,23 @@
+
+$tertiary: #8b4bac;
+$secondary: #cf5b8a;
+$primary: #7ac1b1;
+$cyan: #399bc0;
+$orange: #aa7d66;
+
+$dark: #26252d;
+$gray: #393941;
+$light-gray: #52525c;
+$white: #FFF;
+
 body, html {
     font-family: 'Roboto';
+    background: $gray;
+    color: $white;
+}
+a {
+    color: $primary;
+    &:hover {
+        color: $secondary;
+    }
 }
