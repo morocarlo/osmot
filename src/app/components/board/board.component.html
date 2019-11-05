@@ -9,14 +9,17 @@
             [(ngModel)]="board.title" />  
     </div>
 
-    <section class="" *ngIf="board" [sortablejs]="board.columns">
+    <section class="container-fluid" *ngIf="board" [sortablejs]="board.columns">
+    
         <div *ngFor="let column of board.columns | orderBy : 'order'" class="column">
-            <div>
-                <gtm-column [column]="column"
-                    (onAddCard)="addCard($event)"
-                    [cards]="board.cards">
-                </gtm-column>
-            </div>
+            <perfect-scrollbar class="column" style="max-height: calc(100vh - 100px);" [config]="config">
+                <div>
+                    <gtm-column [column]="column"
+                        (onAddCard)="addCard($event)"
+                        [cards]="board.cards">
+                    </gtm-column>
+                </div>
+            </perfect-scrollbar>
         </div>
         <div class="add-column column"
             (click)="enableAddColumn()" >
@@ -32,6 +35,7 @@
 
             <div class="btn btn-success" (click)="addColumn()" *ngIf="addingColumn"> {{ 'board.add_list_btn' | translate }}</div>
         </div>
+
     </section>
 
 </div>

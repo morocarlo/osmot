@@ -23,10 +23,54 @@
             "boardId": 2,
             "order": 1,
             "columnId": 1,
+            "assigned_to": [
+                {
+                    "_id": 1,
+                    "title": "user 1"
+                },
+                {
+                    "_id": 2,
+                    "title": "user 2"
+                }
+            ],
+            "comments": [
+                {
+                    "_id": 1,
+                    "text": "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+                    "from_user": {
+                        "_id": 1,
+                        "title": "user 1"
+                    }
+                },
+                {
+                    "_id": 2,
+                    "text": "lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+                    "from_user": {
+                        "_id": 1,
+                        "title": "user 1"
+                    }
+                }
+            ],
+            "tags": [
+                {
+                    "_id": 1,
+                    "title": "tag 1"
+                },
+                {
+                    "_id": 2,
+                    "title": "tag 21"
+                }
+            ],
             "subtasks": [
                 {
                     "_id": 1,
-                    "title": "subtask 111"
+                    "title": "subtask 1",
+                    "status": false
+                },
+                {
+                    "_id": 1,
+                    "title": "subtask 2",
+                    "status": true
                 }
             ]
         },

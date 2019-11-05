@@ -18,8 +18,26 @@
     transition-duration: 150ms;
     transition-timing-function: ease;
     background: $gray;
+    position: relative;
+
+    &-edit {
+        display: none;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+    &-footer {
+        padding-top: 10px;
+        &-item {
+            display: inline-block;
+            padding-right: 9px;
+        }
+    }
     
     &:hover{
+        .c-card-edit {
+            display: block;
+        }
     }
 
 }

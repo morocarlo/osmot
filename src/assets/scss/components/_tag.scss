@@ -1,0 +1,25 @@
+.c-tags {
+    padding: 5px 0 0 0;
+    height: 15px;
+    
+    &-tag {
+        float: left;
+        font-size: 12px;
+        font-weight: 700;
+        height: 8px;
+        line-height: 100px;
+        margin: 0 4px 4px 0;
+        max-width: 40px;
+        min-width: 40px;
+        padding: 0;
+        text-shadow: none;
+        width: auto;
+        border-radius: 4px;
+
+        @each $number, $i in $colors {
+            &-#{$number} {
+                background: #{$i};
+            }
+        }
+    } 
+}       

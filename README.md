@@ -41,3 +41,4 @@ Run `ng generate component component-name` to generate a new component. You can 
 - [ ] Aggiungere gestione board
 - [ ] Aggiungere delete per tutti
 - [ ] Aggiungere subtask
+- [ ] Aggiungere commenti

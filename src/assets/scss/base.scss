@@ -10,6 +10,16 @@ $gray: #393941;
 $light-gray: #52525c;
 $white: #FFF;
 
+$colors: (
+    "1": $primary,
+    "2": $secondary,
+    "3": $tertiary,
+    "4": $cyan,
+    "5": $orange,
+);
+
+
+
 body, html {
     font-family: 'Roboto';
     background: $gray;
