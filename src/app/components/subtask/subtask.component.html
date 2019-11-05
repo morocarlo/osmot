@@ -1,1 +1,6 @@
-<p>subtask {{subtask.title}}</p>
+
+
+<label for="subtask_{{subtask._id}}">
+<input id="subtask_{{subtask._id}}" type="checkbox" [checked]="subtask.status" data-md-icheck (change)="toggleVisibility($event)"/>
+    {{subtask.title}}
+</label>
