@@ -1,5 +1,8 @@
 # Angular Starter Kit
 
+# Active branch
+Please note that development in the active branch
+
 ## Dependencies
 Angular CLI
 Node
@@ -8,6 +11,8 @@ The kit include:
 ngx-translate for translation
 Rounting example with auth guard, for token authentication, in app-routing.module.ts
 Bootstrap4
+
+npm run extract-i18n
 
 # Settings
 Change environment.prod.ts or environment.cert.ts or environment.ts

@@ -1,3 +1,31 @@
 {
-    "page_title": "Titolo Pagina"
+	"board": {
+		"add_list": "",
+		"add_list_btn": ""
+	},
+	"card": {
+		"description": "",
+		"description_required": "",
+		"title": "",
+		"title_required": ""
+	},
+	"column": {
+		"add_card": ""
+	},
+	"dashboard": {
+		"create_board": ""
+	},
+	"home": {
+		"copy": "",
+		"footer": "",
+		"home": "",
+		"logout": ""
+	},
+	"login": {
+		"login": "",
+		"password": "",
+		"password_required": "",
+		"username": "",
+		"username_required": ""
+	}
 }
