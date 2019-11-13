@@ -25,7 +25,7 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        this.loginDatabase = new HttpdatabaseService(this._httpClient, 'login', true);
+        this.loginDatabase = new HttpdatabaseService(this._httpClient, 'api/login', true);
         return this.loginDatabase!.loginUser( username, password )
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
@@ -40,7 +40,7 @@ export class AuthenticationService {
 
     public logout() {
         // remove user from local storage to log user out
-        this.loginDatabase = new HttpdatabaseService(this._httpClient, 'logout', true);
+        this.loginDatabase = new HttpdatabaseService(this._httpClient, 'api/logout', true);
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
         this.router.navigate(['/login/']);

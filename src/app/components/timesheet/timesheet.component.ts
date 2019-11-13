@@ -27,7 +27,7 @@ export class TimesheetComponent implements OnInit {
     ngOnInit() {
 
         this.headers = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'get_week', true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week', true);
         this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((headers:any) => {
             this.headers = headers;
         },
@@ -40,7 +40,7 @@ export class TimesheetComponent implements OnInit {
         });
 
         this.data = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'get_week_data', true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week_data', true);
         this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((data:any) => {
             this.data = data;
             this.update_total_row();

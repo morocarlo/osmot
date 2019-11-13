@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  apiUrl: "/mock/",
+  production: true,
+  apiUrl: "http://localhost:8000/",
   ROOT_URL: "http://localhost:4200",
 };
