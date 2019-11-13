@@ -7,6 +7,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/timesheet']">
+                    {{ 'home.timesheet' | translate }}
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': translate.getDefaultLang() == 'en' }" href="javascript:void(0)" (click)="useLanguage('en')">
                     EN
                 </a>

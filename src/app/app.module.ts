@@ -32,6 +32,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { TimesheetComponent } from './components/timesheet/timesheet.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -55,6 +56,7 @@ const config: SocketIoConfig = { url: environment.ROOT_URL, options: {} };
         OrderBy,
         Where,
         SubtaskComponent,
+        TimesheetComponent,
     ],
     imports: [
         BrowserModule,

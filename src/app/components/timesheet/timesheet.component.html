@@ -1,0 +1,36 @@
+<div class="container-fluid main-container">
+
+    <table class="table">
+        <thead *ngIf="headers">
+            <tr>
+                <th>{{ 'timesheet.project' | translate }}</th>
+                <th *ngFor="let head of headers">{{head.date}}</th>
+            </tr>
+        </thead>
+            
+        <tbody >
+            <tr *ngFor="let prj of data; let i = index ">
+                <td data-id="prj._id">{{ prj.name }}</td>
+                
+                <td *ngFor="let hour of prj.hours; let j = index; trackBy:trackByFn">
+                    <input
+                        type="number"
+                        step="0.5"
+                        class="form-control"
+                        [(ngModel)]="data[i].hours[j]"
+                        (ngModelChange)="update_value()" />
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td>{{ 'timesheet.total' | translate }}</td>
+                <td *ngFor="let tot_day of total" [ngClass]="tot_day.class">{{tot_day.hour}}</td>
+            </tr>
+        </tfoot>
+
+        
+    </table>
+
+</div>
