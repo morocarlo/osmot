@@ -104,7 +104,7 @@ export class TimesheetComponent implements OnInit {
     }
 
     save() {
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/save_timesheet', true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/save_timesheet_'+this.view_format+'/' + this.current_week_delta, true);
         this.httprequest.postObj(this.authenticationService.currentUserValue.token, {'data':this.data}).subscribe((data:any) => {
         },
         error => {
