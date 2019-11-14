@@ -134,13 +134,13 @@ export class TimesheetComponent implements OnInit {
                 }
                 this.total[j]['hour'] += parseFloat(hour);
                 if (this.total[j]['hour'] > 8){
-                    this.total[j]['class'] = 'danger';
+                    this.total[j]['class'] = 'alert alert-danger';
                 }
                 else if (this.total[j]['hour'] == 8){
                     this.total[j]['class'] = '';
                 }
                 else if (this.total[j]['hour'] < 8){
-                    this.total[j]['class'] = 'success';
+                    this.total[j]['class'] = 'alert alert-success';
                 }
             });
         });

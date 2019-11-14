@@ -1,23 +1,30 @@
-<div class="container-fluid main-container">
+<div class="container-fluid main-container timesheet">
 
-    <div class="" (click)="change_view_format('week')">Week</div>
-    <div class="" (click)="change_view_format('month')">Month</div>
+    <div class="float-left">
+        <div class="float-left" (click)="change_view_format('week')"><i class="fa fa-calendar-times"></i> </div>
+        <div class="float-left ml-2" (click)="change_view_format('month')"><i class="fa fa-calendar-alt"></i> </div>
 
-    <div class="" (click)="change_group_format('/users/')">All users</div>
-    <div class="" (click)="change_group_format('/')">only me</div>
+        <div class="float-left ml-2" (click)="change_group_format('/users/')"><i class="fa fa-users"></i> </div>
+        <div class="float-left ml-2" (click)="change_group_format('/')"><i class="fa fa-user"></i> </div>
 
-    <div class="prev" (click)="change_week(-1)">Prev</div>
-    <div class="next" (click)="change_week(1)">Next</div>
+        
 
-    <select (change)="change_user($event)">
-        <option *ngFor="let u of users" [value]="u._id">{{u.username}}</option>
-    </select>
+        <select (change)="change_user($event)">
+            <option *ngFor="let u of users" [value]="u._id">{{u.username}}</option>
+        </select>
+    </div>
+
+    <div class="float-right">
+        <div class="next float-right" (click)="change_week(1)"><i class="fa fa-chevron-right"></i> </div>
+        <div class="prev float-right mr-2" (click)="change_week(-1)"><i class="fa fa-chevron-left"></i> </div>
+       
+    </div>
 
     <table class="table">
         <thead *ngIf="headers">
             <tr>
                 <th>{{ 'timesheet.project' | translate }}</th>
-                <th *ngFor="let head of headers" [ngClass]="{'alert-primary': head.is_weekend, 'alert-secondary': head.is_festivity}">{{head.date}}</th>
+                <th *ngFor="let head of headers" [ngClass]="{'alert alert-primary': head.is_weekend, 'alert alert-secondary': head.is_festivity}">{{head.date}}</th>
             </tr>
         </thead>
             
@@ -35,7 +42,7 @@
                         [(ngModel)]="data[i].hours[j]"
                         (ngModelChange)="update_value()" />
 
-                    <span *ngIf="!can_edit">{{ data[i].hours[j] }}</span>
+                    <div *ngIf="!can_edit" [ngClass]="{'alert-danger': data[i].hours[j] > 8, 'alert-success': data[i].hours[j] < 8 }">{{ data[i].hours[j] }}</div>
                     
                 </td>
             </tr>

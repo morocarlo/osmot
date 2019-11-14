@@ -28,7 +28,6 @@ import { NotifierModule } from "angular-notifier";
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SubtaskComponent } from './components/subtask/subtask.component';
 import { AvatarModule } from 'ngx-avatar';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -62,7 +61,6 @@ const config: SocketIoConfig = { url: environment.ROOT_URL, options: {} };
         BrowserModule,
         AvatarModule,
         PerfectScrollbarModule,
-        AngularFontAwesomeModule,
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,

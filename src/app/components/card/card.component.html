@@ -5,7 +5,7 @@
     <span [innerHtml]="card.title" [style.display]="editingCard ? 'none' : ''">
     </span>
 
-    <fa class="c-card-edit" name="edit"></fa>
+    <i class="c-card-edit fa fa-edit" name="edit"></i>
 
     <div class="c-tags" *ngIf="card.tags">
         <div class="c-tags-tag" [ngClass]="'c-tags-tag-' + t._id" *ngFor="let t of card.tags">
@@ -14,11 +14,11 @@
 
     <div class="c-card-footer">
         <div class="c-card-footer-item" *ngIf="card.comments">
-            <fa name="comment"></fa>
+            <i class="fa fa-comment"></i>
         </div>
         <div class="c-card-footer-item" *ngIf="card.subtasks">
         
-            <fa name="tasks"></fa>
+            <i class="fa fa-tasks"></i>
             <span>TODO X/Y</span>
         </div>
 
