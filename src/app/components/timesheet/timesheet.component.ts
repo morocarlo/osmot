@@ -15,6 +15,7 @@ export class TimesheetComponent implements OnInit {
     headers = [];
     data = [];
     total = [];
+    current_week_delta = 0;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -41,6 +42,36 @@ export class TimesheetComponent implements OnInit {
 
         this.data = [];
         this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week_data', true);
+        this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((data:any) => {
+            this.data = data;
+            this.update_total_row();
+        },
+        error => {
+            this.notifier.notify(
+                "error",
+                error.message,
+                "THAT_NOTIFICATION_ID"
+            );
+        });
+    }
+
+    change_week(delta){
+        this.current_week_delta += parseInt(delta);
+        this.headers = [];
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week/' + this.current_week_delta , true);
+        this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((headers:any) => {
+            this.headers = headers;
+        },
+        error => {
+            this.notifier.notify(
+                "error",
+                error.message,
+                "THAT_NOTIFICATION_ID"
+            );
+        });
+
+        this.data = [];
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week_data/'  + this.current_week_delta , true);
         this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((data:any) => {
             this.data = data;
             this.update_total_row();
@@ -88,7 +119,7 @@ export class TimesheetComponent implements OnInit {
     }
 
     save() {
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'save_timesheet', true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/save_timesheet', true);
         this.httprequest.postObj(this.authenticationService.currentUserValue.token, {'data':this.data}).subscribe((data:any) => {
         },
         error => {

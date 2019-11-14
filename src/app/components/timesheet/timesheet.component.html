@@ -1,18 +1,21 @@
 <div class="container-fluid main-container">
 
+    <div class="prev" (click)="change_week(-1)">Prev</div>
+    <div class="next" (click)="change_week(1)">Next</div>
+
     <table class="table">
         <thead *ngIf="headers">
             <tr>
                 <th>{{ 'timesheet.project' | translate }}</th>
-                <th *ngFor="let head of headers">{{head.date}}</th>
+                <th *ngFor="let head of headers" [ngClass]="{'alert-primary': head.is_weekend, 'alert-secondary': head.is_festivity}">{{head.date}}</th>
             </tr>
         </thead>
             
-        <tbody >
+        <tbody *ngIf="headers && data" >
             <tr *ngFor="let prj of data; let i = index ">
                 <td data-id="prj._id">{{ prj.name }}</td>
                 
-                <td *ngFor="let hour of prj.hours; let j = index; trackBy:trackByFn">
+                <td *ngFor="let hour of prj.hours; let j = index; trackBy:trackByFn" [ngClass]="{'alert-primary': headers[j].is_weekend, 'alert-secondary': headers[j].is_festivity}">
                     <input
                         type="number"
                         step="0.5"
@@ -26,7 +29,7 @@
         <tfoot>
             <tr>
                 <td>{{ 'timesheet.total' | translate }}</td>
-                <td *ngFor="let tot_day of total" [ngClass]="tot_day.class">{{tot_day.hour}}</td>
+                <td *ngFor="let tot_day of total; let j = index" [ngClass]="tot_day.class">{{tot_day.hour}}</td>
             </tr>
         </tfoot>
 

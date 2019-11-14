@@ -40,6 +40,12 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 # TODO LIST
 
+## Timesheet
+- [ ] Inviare anche anno
+- [ ] Visualizzazione globale
+
+## Board
+
 - [ ] Aggiungere save al reordering di board e card
 - [ ] Aggiungere file uploader multiplo con file preview
 - [ ] Aggiungere labels
