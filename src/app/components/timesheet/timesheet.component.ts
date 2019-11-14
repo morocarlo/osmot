@@ -17,6 +17,9 @@ export class TimesheetComponent implements OnInit {
     total = [];
     current_week_delta = 0;
     view_format: string = 'week';
+    is_users: string = '';
+    users = [];
+    current_user_id = '';
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -30,6 +33,33 @@ export class TimesheetComponent implements OnInit {
         if (localStorage.getItem('view_format')){
             this.view_format = localStorage.getItem('view_format');
         }
+        if (localStorage.getItem('is_users')){
+            this.is_users = localStorage.getItem('is_users');
+        }
+        
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/all_users' , true);
+        this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((users:any) => {
+            this.users = users;
+        },
+        error => {
+            this.notifier.notify(
+                "error",
+                error.message,
+                "THAT_NOTIFICATION_ID"
+            );
+        });
+
+        this.change_week(0);
+    }
+
+    change_group_format(is_users){
+        this.is_users = is_users;
+        localStorage.setItem('is_users', is_users);
+        this.change_week(0);
+    }
+
+    change_user($event){
+        this.current_user_id = $event.target.value;
         this.change_week(0);
     }
 
@@ -43,7 +73,7 @@ export class TimesheetComponent implements OnInit {
 
         this.current_week_delta += parseInt(delta);
         this.headers = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_'+this.view_format+'/' + this.current_week_delta , true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_'+this.view_format+'/' + this.current_week_delta  , true);
         this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((headers:any) => {
             this.headers = headers;
         },
@@ -56,7 +86,7 @@ export class TimesheetComponent implements OnInit {
         });
 
         this.data = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_'+this.view_format+'_data/'  + this.current_week_delta , true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_'+this.view_format+'_data/'  + this.current_week_delta + this.is_users + '?user_id=' + this.current_user_id , true);
         this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((data:any) => {
             this.data = data;
             this.update_total_row();
@@ -104,7 +134,7 @@ export class TimesheetComponent implements OnInit {
     }
 
     save() {
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/save_timesheet_'+this.view_format+'/' + this.current_week_delta, true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/save_timesheet_'+this.view_format+'/' + this.current_week_delta + '/?user_id=' + this.current_user_id, true);
         this.httprequest.postObj(this.authenticationService.currentUserValue.token, {'data':this.data}).subscribe((data:any) => {
         },
         error => {

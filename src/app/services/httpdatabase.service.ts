@@ -18,7 +18,7 @@ export class HttpdatabaseService {
   href = '';
   
   constructor(private _httpClient: HttpClient, public apiName: string, private isTable: boolean ) {
-    this.href = environment.apiUrl + this.apiName+'/';
+    this.href = environment.apiUrl + this.apiName;
   } 
 
   getTable(sort: string, order: string, page: number, limit: number, userToken: string): Observable<TableApi> {
