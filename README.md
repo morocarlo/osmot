@@ -41,8 +41,9 @@ Run `ng generate component component-name` to generate a new component. You can 
 # TODO LIST
 
 ## Timesheet
-- [ ] Inviare anche anno
 - [ ] Visualizzazione globale
+- [ ] Impersonate
+- [ ] Stile
 
 ## Board
 
