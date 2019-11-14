@@ -26,17 +26,22 @@
                 <td data-id="prj._id">{{ prj.name }}</td>
                 
                 <td *ngFor="let hour of prj.hours; let j = index; trackBy:trackByFn" [ngClass]="{'alert-primary': headers[j].is_weekend, 'alert-secondary': headers[j].is_festivity}">
+
                     <input
+                        *ngIf="can_edit"
                         type="number"
                         step="0.5"
                         class="form-control"
                         [(ngModel)]="data[i].hours[j]"
                         (ngModelChange)="update_value()" />
+
+                    <span *ngIf="!can_edit">{{ data[i].hours[j] }}</span>
+                    
                 </td>
             </tr>
         </tbody>
 
-        <tfoot>
+        <tfoot *ngIf="can_edit">
             <tr>
                 <td>{{ 'timesheet.total' | translate }}</td>
                 <td *ngFor="let tot_day of total; let j = index" [ngClass]="tot_day.class">{{tot_day.hour}}</td>

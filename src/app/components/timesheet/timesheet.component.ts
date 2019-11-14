@@ -20,6 +20,7 @@ export class TimesheetComponent implements OnInit {
     is_users: string = '';
     users = [];
     current_user_id = '';
+    can_edit = true;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -35,6 +36,12 @@ export class TimesheetComponent implements OnInit {
         }
         if (localStorage.getItem('is_users')){
             this.is_users = localStorage.getItem('is_users');
+            if (this.is_users.indexOf('users') > -1){
+                this.can_edit = false;
+            }
+            else {
+                this.can_edit = true;
+            }
         }
         
         this.httprequest = new HttpdatabaseService(this._httpClient, 'api/all_users' , true);
@@ -54,6 +61,12 @@ export class TimesheetComponent implements OnInit {
 
     change_group_format(is_users){
         this.is_users = is_users;
+        if (this.is_users.indexOf('users') > -1){
+            this.can_edit = false;
+        }
+        else {
+            this.can_edit = true;
+        }
         localStorage.setItem('is_users', is_users);
         this.change_week(0);
     }
@@ -134,6 +147,9 @@ export class TimesheetComponent implements OnInit {
     }
 
     save() {
+        if (this.is_users.indexOf('users') > -1){
+            return;
+        }
         this.httprequest = new HttpdatabaseService(this._httpClient, 'api/save_timesheet_'+this.view_format+'/' + this.current_week_delta + '/?user_id=' + this.current_user_id, true);
         this.httprequest.postObj(this.authenticationService.currentUserValue.token, {'data':this.data}).subscribe((data:any) => {
         },
