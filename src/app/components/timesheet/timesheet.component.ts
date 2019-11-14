@@ -16,6 +16,7 @@ export class TimesheetComponent implements OnInit {
     data = [];
     total = [];
     current_week_delta = 0;
+    view_format: string = 'week';
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -26,39 +27,23 @@ export class TimesheetComponent implements OnInit {
         this.notifier = notifierService;
      }
     ngOnInit() {
+        if (localStorage.getItem('view_format')){
+            this.view_format = localStorage.getItem('view_format');
+        }
+        this.change_week(0);
+    }
 
-        this.headers = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week', true);
-        this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((headers:any) => {
-            this.headers = headers;
-        },
-        error => {
-            this.notifier.notify(
-                "error",
-                error.message,
-                "THAT_NOTIFICATION_ID"
-            );
-        });
-
-        this.data = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week_data', true);
-        this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((data:any) => {
-            this.data = data;
-            this.update_total_row();
-        },
-        error => {
-            this.notifier.notify(
-                "error",
-                error.message,
-                "THAT_NOTIFICATION_ID"
-            );
-        });
+    change_view_format(view_format){
+        this.view_format = view_format;
+        localStorage.setItem('view_format', view_format);
+        this.change_week(0);
     }
 
     change_week(delta){
+
         this.current_week_delta += parseInt(delta);
         this.headers = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week/' + this.current_week_delta , true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_'+this.view_format+'/' + this.current_week_delta , true);
         this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((headers:any) => {
             this.headers = headers;
         },
@@ -71,7 +56,7 @@ export class TimesheetComponent implements OnInit {
         });
 
         this.data = [];
-        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_week_data/'  + this.current_week_delta , true);
+        this.httprequest = new HttpdatabaseService(this._httpClient, 'api/get_'+this.view_format+'_data/'  + this.current_week_delta , true);
         this.httprequest.getObj(this.authenticationService.currentUserValue.token).subscribe((data:any) => {
             this.data = data;
             this.update_total_row();
